@@ -1,3 +1,5 @@
+The idea for this patch came from http://anonscm.debian.org/viewvc/gcccvs/branches/sid/gcc-4.8/debian/patches/gcc-multilib-multiarch.diff?view=markup
+
 --- gcc/config/i386/t-linux64.orig	2014-10-08 16:36:06.357136123 +0200
 +++ gcc/config/i386/t-linux64	2014-10-08 16:36:45.693137056 +0200
 @@ -32,7 +32,7 @@
