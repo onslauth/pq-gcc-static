@@ -1,3 +1,3 @@
-part: 'pq-mpfr'
-part: 'pq-gmp'
-part: 'pq-mpc'
+part: 'pq-mpfr', branch: '3.1.2'
+part: 'pq-gmp',  branch: '6.0.0a'
+part: 'pq-mpc',  branch: '1.0.2'
