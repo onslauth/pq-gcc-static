@@ -1,0 +1,481 @@
+--- Makefile.in	2014-04-04 22:53:48.000000000 +0200
++++ Makefile.in	2015-12-14 16:45:41.567611518 +0200
+@@ -389,7 +389,7 @@
+ 
+ AS = @AS@
+ AR = @AR@
+-AR_FLAGS = rc
++AR_FLAGS = Dcvr
+ CC = @CC@
+ CXX = @CXX@
+ DLLTOOL = @DLLTOOL@
+diff -ur libbacktrace/configure libbacktrace/configure
+--- libbacktrace/configure	2014-02-07 23:10:55.000000000 +0200
++++ libbacktrace/configure	2015-12-15 13:06:56.268076868 +0200
+@@ -6247,7 +6247,7 @@
+ fi
+ 
+ test -z "$AR" && AR=ar
+-test -z "$AR_FLAGS" && AR_FLAGS=cru
++test -z "$AR_FLAGS" && AR_FLAGS=Dcru
+ 
+ 
+ 
+diff -ur libdecnumber/Makefile.in libdecnumber/Makefile.in
+--- libdecnumber/Makefile.in	2014-01-03 00:24:52.000000000 +0200
++++ libdecnumber/Makefile.in	2015-12-15 13:05:03.372076221 +0200
+@@ -26,7 +26,7 @@
+ VPATH = @srcdir@
+ INSTALL = @INSTALL@
+ AR = ar
+-ARFLAGS = cru
++ARFLAGS = Dcr
+ ACLOCAL = @ACLOCAL@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+@@ -42,6 +42,7 @@
+ PACKAGE = @PACKAGE@
+ PICFLAG = @PICFLAG@
+ RANLIB = @RANLIB@
++RANLIB_FLAGS = -D
+ SHELL = @SHELL@
+ objext = @OBJEXT@
+ 
+@@ -85,7 +86,7 @@
+ libdecnumber.a: $(libdecnumber_a_OBJS)
+ 	-rm -f $@
+ 	$(AR) $(ARFLAGS) $@ $(libdecnumber_a_OBJS)
+-	$(RANLIB) $@
++	$(RANLIB) $(RANLIB_FLAGS) $@
+ 
+ # Rules to rebuild the configuration
+ 
+diff -ur libiberty/Makefile.in libiberty/Makefile.in
+--- libiberty/Makefile.in	2013-06-01 02:20:49.000000000 +0200
++++ libiberty/Makefile.in	2015-12-15 13:04:18.628075964 +0200
+@@ -52,12 +52,13 @@
+ OUTPUT_OPTION = @OUTPUT_OPTION@
+ 
+ AR = @AR@
+-AR_FLAGS = rc
++AR_FLAGS = Drc
+ 
+ CC = @CC@
+ CFLAGS = @CFLAGS@
+ CPPFLAGS = @CPPFLAGS@
+ RANLIB = @RANLIB@
++RANLIB_FLAGS = -D
+ MAKEINFO = @MAKEINFO@
+ PERL = @PERL@
+ 
+@@ -244,12 +245,12 @@
+ 	-rm -f $(TARGETLIB) pic/$(TARGETLIB)
+ 	$(AR) $(AR_FLAGS) $(TARGETLIB) \
+ 	  $(REQUIRED_OFILES) $(EXTRA_OFILES) $(LIBOBJS)
+-	$(RANLIB) $(TARGETLIB)
++	$(RANLIB) $(RANLIB_FLAGS) $(TARGETLIB)
+ 	if [ x"$(PICFLAG)" != x ]; then \
+ 	  cd pic; \
+ 	  $(AR) $(AR_FLAGS) $(TARGETLIB) \
+ 	    $(REQUIRED_OFILES) $(EXTRA_OFILES) $(LIBOBJS); \
+-	  $(RANLIB) $(TARGETLIB); \
++	  $(RANLIB) $(RANLIB_FLAGS) $(TARGETLIB); \
+ 	  cd ..; \
+ 	else true; fi
+ 
+@@ -257,7 +258,7 @@
+ 	-rm -f $(TESTLIB)
+ 	$(AR) $(AR_FLAGS) $(TESTLIB) \
+ 	  $(REQUIRED_OFILES) $(CONFIGURED_OFILES)
+-	$(RANLIB) $(TESTLIB)
++	$(RANLIB) $(RANLIB_FLAGS) $(TESTLIB)
+ 
+ info: libiberty.info info-subdir
+ install-info: install-info-subdir
+@@ -358,7 +359,7 @@
+ 	if test -n "${target_header_dir}"; then \
+ 		${mkinstalldirs} $(DESTDIR)$(libdir)/$(MULTIOSDIR); \
+ 		$(INSTALL_DATA) $(TARGETLIB) $(DESTDIR)$(libdir)/$(MULTIOSDIR)/$(TARGETLIB)n; \
+-		( cd $(DESTDIR)$(libdir)/$(MULTIOSDIR) ; chmod 644 $(TARGETLIB)n ;$(RANLIB) $(TARGETLIB)n ); \
++		( cd $(DESTDIR)$(libdir)/$(MULTIOSDIR) ; chmod 644 $(TARGETLIB)n ;$(RANLIB) $(RANLIB_FLAGS) $(TARGETLIB)n ); \
+ 		mv -f $(DESTDIR)$(libdir)/$(MULTIOSDIR)/$(TARGETLIB)n $(DESTDIR)$(libdir)/$(MULTIOSDIR)/$(TARGETLIB); \
+ 		case "${target_header_dir}" in \
+ 		  /*)    thd=${target_header_dir};; \
+@@ -374,7 +375,7 @@
+ install_to_tooldir: all
+ 	${mkinstalldirs} $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR)
+ 	$(INSTALL_DATA) $(TARGETLIB) $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR)/$(TARGETLIB)n
+-	( cd $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR) ; chmod 644 $(TARGETLIB)n; $(RANLIB) $(TARGETLIB)n )
++	( cd $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR) ; chmod 644 $(TARGETLIB)n; $(RANLIB) $(RANLIB_FLAGS) $(TARGETLIB)n )
+ 	mv -f $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR)/$(TARGETLIB)n $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR)/$(TARGETLIB)
+ 	@$(MULTIDO) $(FLAGS_TO_PASS) multi-do DO=install
+ 
+--- libcpp/Makefile.in	2015-12-15 14:43:59.976110238 +0200
++++ libcpp/Makefile.in	2015-12-15 14:44:25.556110384 +0200
+@@ -26,7 +26,7 @@
+ VPATH = @srcdir@
+ INSTALL = @INSTALL@
+ AR = ar
+-ARFLAGS = cru
++ARFLAGS = Dcr
+ ACLOCAL = @ACLOCAL@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+@@ -50,6 +50,7 @@
+ LIBINTL = @LIBINTL@
+ PACKAGE = @PACKAGE@
+ RANLIB = @RANLIB@
++RANLIB_FLAGS = -D
+ SHELL = @SHELL@
+ USED_CATALOGS = @USED_CATALOGS@
+ XGETTEXT = @XGETTEXT@
+@@ -99,7 +100,7 @@
+ libcpp.a: $(libcpp_a_OBJS)
+ 	-rm -f libcpp.a
+ 	$(AR) $(ARFLAGS) libcpp.a $(libcpp_a_OBJS)
+-	$(RANLIB) libcpp.a
++	$(RANLIB) $(RANLIB_FLAGS) libcpp.a
+ 
+ # Rules to rebuild the configuration
+ 
+--- libbacktrace/configure	2014-02-07 23:10:55.000000000 +0200
++++ libbacktrace/configure	2015-12-16 13:30:44.933390355 +0200
+@@ -12477,6 +12477,9 @@
+ ac_config_commands="$ac_config_commands default"
+ 
+ 
++RANLIB="ranlib -D"
++
++
+ cat >confcache <<\_ACEOF
+ # This file is a shell script that caches the results of configure
+ # tests run on this system so they can be shared between configure
+--- gcc/Makefile.in	2014-04-15 10:04:17.000000000 +0200
++++ gcc/Makefile.in	2015-12-16 16:25:34.221639313 +0200
+@@ -214,7 +214,7 @@
+ FLEX = @FLEX@
+ FLEXFLAGS =
+ AR = @AR@
+-AR_FLAGS = rc
++AR_FLAGS = Dcr
+ NM = @NM@
+ RANLIB = @RANLIB@
+ RANLIB_FLAGS = @ranlib_flags@
+diff -ur gcc/configure gcc/configure
+--- gcc/configure	2015-12-16 22:20:17.214144456 +0200
++++ gcc/configure	2015-12-18 09:01:00.598626484 +0200
+@@ -28082,6 +28082,10 @@
+ 
+ ac_config_commands="$ac_config_commands default"
+ 
++
++RANLIB="ranlib -D"
++
++
+ cat >confcache <<\_ACEOF
+ # This file is a shell script that caches the results of configure
+ # tests run on this system so they can be shared between configure
+diff -ur libcilkrts/configure libcilkrts/configure
+--- libcilkrts/configure	2015-12-16 22:20:17.242144456 +0200
++++ libcilkrts/configure	2015-12-18 09:02:23.734628809 +0200
+@@ -14505,6 +14505,8 @@
+ fi
+ 
+ 
++RANLIB="ranlib -D"
++
+ 
+ # Must be last
+ cat >confcache <<\_ACEOF
+diff -ur libgcc/Makefile.in libgcc/Makefile.in
+--- libgcc/Makefile.in	2014-01-08 18:37:08.000000000 +0200
++++ libgcc/Makefile.in	2015-12-18 08:59:45.870624395 +0200
+@@ -69,7 +69,7 @@
+ objext = .o
+ 
+ AR = @AR@
+-AR_FLAGS = rc
++AR_FLAGS = Dcr
+ 
+ CC = @CC@
+ CFLAGS = @CFLAGS@
+diff -ur zlib/configure zlib/configure
+--- zlib/configure	2014-07-16 12:06:03.000000000 +0200
++++ zlib/configure	2015-12-18 09:01:45.842627750 +0200
+@@ -11216,6 +11216,10 @@
+ 
+ ac_config_files="$ac_config_files Makefile"
+ 
++
++RANLIB="ranlib -D"
++
++
+ cat >confcache <<\_ACEOF
+ # This file is a shell script that caches the results of configure
+ # tests run on this system so they can be shared between configure
+--- libgcc/Makefile.in	2015-12-18 09:50:45.946709974 +0200
++++ libgcc/Makefile.in	2015-12-18 09:54:54.326716920 +0200
+@@ -168,7 +168,7 @@
+ 
+ AR_FOR_TARGET = $(AR)
+ AR_FLAGS_FOR_TARGET =
+-AR_CREATE_FOR_TARGET = $(AR_FOR_TARGET) $(AR_FLAGS_FOR_TARGET) rc
++AR_CREATE_FOR_TARGET = $(AR_FOR_TARGET) $(AR_FLAGS_FOR_TARGET) Dcr
+ AR_EXTRACT_FOR_TARGET = $(AR_FOR_TARGET) $(AR_FLAGS_FOR_TARGET) x
+ AWK = @AWK@
+ GCC_FOR_TARGET = $(CC)
+--- libgcc/Makefile.in	2015-12-18 10:21:42.754761902 +0200
++++ libgcc/Makefile.in	2015-12-18 10:38:51.614790676 +0200
+@@ -897,7 +897,7 @@
+ 	fi;							\
+ 	$(AR_CREATE_FOR_TARGET) $@ $$objects
+ 
+-	$(RANLIB) $@
++	$(RANLIB) -D $@
+ 
+ all: libgcc.a libgcov.a
+ 
+diff -ur libcilkrts/Makefile.in libcilkrts/Makefile.in
+--- libcilkrts/Makefile.in	2014-03-26 21:16:35.000000000 +0200
++++ libcilkrts/Makefile.in	2015-12-18 11:55:52.914919917 +0200
+@@ -460,7 +460,7 @@
+        "LIBCFLAGS=$(LIBCFLAGS)" \
+        "NM=$(NM)" \
+        "PICFLAG=$(PICFLAG)" \
+-       "RANLIB=$(RANLIB)" \
++       "RANLIB=\"$(RANLIB)\"" \
+        "DESTDIR=$(DESTDIR)"
+ 
+ MAKEOVERRIDES = 
+diff -ur libgomp/configure libgomp/configure
+--- libgomp/configure	2014-07-16 12:06:03.000000000 +0200
++++ libgomp/configure	2015-12-18 11:54:35.550917753 +0200
+@@ -16067,7 +16067,7 @@
+ XCFLAGS="$XCFLAGS$XPCFLAGS"
+ 
+ 
+-
++RANLIB="ranlib -D"
+ 
+ 
+ # Cleanup and exit.
+diff -ur zlib/Makefile.in zlib/Makefile.in
+--- zlib/Makefile.in	2014-07-16 12:06:03.000000000 +0200
++++ zlib/Makefile.in	2015-12-18 11:50:55.550911601 +0200
+@@ -79,7 +79,7 @@
+   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+ am__installdirs = "$(DESTDIR)$(toolexeclibdir)"
+ LIBRARIES = $(toolexeclib_LIBRARIES)
+-ARFLAGS = cru
++ARFLAGS = Dcr
+ libz_a_AR = $(AR) $(ARFLAGS)
+ libz_a_LIBADD =
+ am__objects_1 = libz_a-adler32.$(OBJEXT) libz_a-compress.$(OBJEXT) \
+@@ -354,8 +354,8 @@
+ 	for p in $$list; do \
+ 	  if test -f $$p; then \
+ 	    $(am__strip_dir) \
+-	    echo " ( cd '$(DESTDIR)$(toolexeclibdir)' && $(RANLIB) $$f )"; \
+-	    ( cd "$(DESTDIR)$(toolexeclibdir)" && $(RANLIB) $$f ) || exit $$?; \
++	    echo " ( cd '$(DESTDIR)$(toolexeclibdir)' && $(RANLIB) -D $$f )"; \
++	    ( cd "$(DESTDIR)$(toolexeclibdir)" && $(RANLIB) -D $$f ) || exit $$?; \
+ 	  else :; fi; \
+ 	done
+ 
+@@ -372,7 +372,7 @@
+ libz.a: $(libz_a_OBJECTS) $(libz_a_DEPENDENCIES) 
+ 	-rm -f libz.a
+ 	$(libz_a_AR) libz.a $(libz_a_OBJECTS) $(libz_a_LIBADD)
+-	$(RANLIB) libz.a
++	$(RANLIB) -D libz.a
+ 
+ clean-noinstLTLIBRARIES:
+ 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+diff -ur libgcc/Makefile.in libgcc/Makefile.in
+--- libgcc/Makefile.in	2015-12-18 15:51:41.019315588 +0200
++++ libgcc/Makefile.in	2015-12-18 15:55:45.791322434 +0200
+@@ -1020,14 +1020,14 @@
+ 	# early copy is necessary so that the gcc -B options find
+ 	# the right startup files when linking shared libgcc.
+ 	$(mkinstalldirs) $(gcc_objdir)$(MULTISUBDIR)
+-	parts="$(EXTRA_PARTS)";					\
+-	for file in $$parts; do					\
+-	  rm -f $(gcc_objdir)$(MULTISUBDIR)/$$file;		\
+-	  $(INSTALL_DATA) $$file $(gcc_objdir)$(MULTISUBDIR)/;	\
+-	  case $$file in 					\
+-	    *.a)						\
+-	      $(RANLIB) $(gcc_objdir)$(MULTISUBDIR)/$$file ;;	\
+-	  esac;							\
++	parts="$(EXTRA_PARTS)";						\
++	for file in $$parts; do						\
++	  rm -f $(gcc_objdir)$(MULTISUBDIR)/$$file;			\
++	  $(INSTALL_DATA) $$file $(gcc_objdir)$(MULTISUBDIR)/;		\
++	  case $$file in 						\
++	    *.a)							\
++	      $(RANLIB) -D $(gcc_objdir)$(MULTISUBDIR)/$$file ;;	\
++	  esac;								\
+ 	done
+ 
+ all: $(extra-parts)
+@@ -1077,7 +1077,7 @@
+ 	# is where the old mklibgcc.in put it.
+ 	$(INSTALL_DATA) libunwind.a $(DESTDIR)$(inst_slibdir)/
+ 	chmod 644 $(DESTDIR)$(inst_slibdir)/libunwind.a
+-	$(RANLIB) $(DESTDIR)$(inst_slibdir)/libunwind.a
++	$(RANLIB) -D $(DESTDIR)$(inst_slibdir)/libunwind.a
+ 
+ 	$(subst @multilib_dir@,$(MULTIDIR),$(subst \
+ 		@shlib_base_name@,libunwind,$(subst \
+@@ -1088,7 +1088,7 @@
+ 
+ 	$(INSTALL_DATA) libgcc_eh.a $(DESTDIR)$(inst_libdir)/
+ 	chmod 644 $(DESTDIR)$(inst_libdir)/libgcc_eh.a
+-	$(RANLIB) $(DESTDIR)$(inst_libdir)/libgcc_eh.a
++	$(RANLIB) -D $(DESTDIR)$(inst_libdir)/libgcc_eh.a
+ 
+ 	$(subst @multilib_dir@,$(MULTIDIR),$(subst \
+ 		@shlib_base_name@,libgcc_s,$(subst \
+@@ -1099,19 +1099,19 @@
+ 
+ 	$(INSTALL_DATA) libgcc.a $(DESTDIR)$(inst_libdir)/
+ 	chmod 644 $(DESTDIR)$(inst_libdir)/libgcc.a
+-	$(RANLIB) $(DESTDIR)$(inst_libdir)/libgcc.a
++	$(RANLIB) -D $(DESTDIR)$(inst_libdir)/libgcc.a
+ 	$(INSTALL_DATA) libgcov.a $(DESTDIR)$(inst_libdir)/
+ 	chmod 644 $(DESTDIR)$(inst_libdir)/libgcov.a
+-	$(RANLIB) $(DESTDIR)$(inst_libdir)/libgcov.a
++	$(RANLIB) -D $(DESTDIR)$(inst_libdir)/libgcov.a
+ 
+-	parts="$(INSTALL_PARTS)";				\
+-	for file in $$parts; do					\
+-	  rm -f $(DESTDIR)$(inst_libdir)/$$file;		\
+-	  $(INSTALL_DATA) $$file $(DESTDIR)$(inst_libdir)/;	\
+-	  case $$file in 					\
+-	    *.a)						\
+-	      $(RANLIB) $(gcc_objdir)$(MULTISUBDIR)/$$file ;;	\
+-	  esac;							\
++	parts="$(INSTALL_PARTS)";					\
++	for file in $$parts; do						\
++	  rm -f $(DESTDIR)$(inst_libdir)/$$file;			\
++	  $(INSTALL_DATA) $$file $(DESTDIR)$(inst_libdir)/;		\
++	  case $$file in 						\
++	    *.a)							\
++	      $(RANLIB) -D $(gcc_objdir)$(MULTISUBDIR)/$$file ;;	\
++	  esac;								\
+ 	done
+ 
+ install: install-leaf install-unwind_h
+--- gcc/configure	2015-12-14 23:34:17.212193385 +0200
++++ gcc/configure	2015-12-15 09:31:50.695197786 +0200
+@@ -7535,7 +7535,7 @@
+   RANLIB="$ac_cv_prog_RANLIB"
+ fi
+ 
+-ranlib_flags=""
++ranlib_flags="-D"
+ 
+ 
+ # Find a good install program.  We prefer a C program (faster),
+diff -ur libatomic/configure libatomic/configure
+--- libatomic/configure	2014-07-16 12:06:03.000000000 +0200
++++ libatomic/configure	2015-12-16 21:28:23.526070554 +0200
+@@ -3179,6 +3179,9 @@
+ ac_config_commands="$ac_config_commands default-1"
+ 
+ 
++RANLIB="ranlib -D"
++
++
+ # Calculate toolexeclibdir
+ # Also toolexecdir, though it's only used in toolexeclibdir
+ case ${enable_version_specific_runtime_libs} in
+diff -ur libcilkrts/configure libcilkrts/configure
+--- libcilkrts/configure	2014-03-26 21:16:35.000000000 +0200
++++ libcilkrts/configure	2015-12-16 21:27:41.642069559 +0200
+@@ -3644,6 +3644,9 @@
+ ac_config_commands="$ac_config_commands depfiles"
+ 
+ 
++RANLIB="ranlib -D"
++
++
+ am_make=${MAKE-make}
+ cat > confinc << 'END'
+ am__doit:
+diff -ur libgcc/configure libgcc/configure
+--- libgcc/configure	2014-02-07 09:46:34.000000000 +0200
++++ libgcc/configure	2015-12-16 21:32:47.838076827 +0200
+@@ -4595,6 +4595,8 @@
+ 
+ ac_config_commands="$ac_config_commands default"
+ 
++RANLIB="ranlib -D"
++
+ cat >confcache <<\_ACEOF
+ # This file is a shell script that caches the results of configure
+ # tests run on this system so they can be shared between configure
+diff -ur libitm/configure libitm/configure
+--- libitm/configure	2014-07-16 12:06:03.000000000 +0200
++++ libitm/configure	2015-12-16 21:34:20.022079015 +0200
+@@ -17493,6 +17493,10 @@
+ 
+ fi
+ 
++
++RANLIB="ranlib -D"
++
++
+ # Cleanup and exit.
+ CFLAGS="$save_CFLAGS"
+ cat >confcache <<\_ACEOF
+diff -ur libquadmath/configure libquadmath/configure
+--- libquadmath/configure	2014-07-16 12:06:03.000000000 +0200
++++ libquadmath/configure	2015-12-16 21:28:37.758070891 +0200
+@@ -2875,6 +2875,9 @@
+ ac_config_commands="$ac_config_commands depfiles"
+ 
+ 
++RANLIB="ranlib -D"
++
++
+ am_make=${MAKE-make}
+ cat > confinc << 'END'
+ am__doit:
+diff -ur libsanitizer/configure libsanitizer/configure
+--- libsanitizer/configure	2014-07-16 12:06:03.000000000 +0200
++++ libsanitizer/configure	2015-12-16 21:32:19.242076148 +0200
+@@ -16362,6 +16362,8 @@
+ 
+ fi
+ 
++RANLIB="ranlib -D"
++
+ cat >confcache <<\_ACEOF
+ # This file is a shell script that caches the results of configure
+ # tests run on this system so they can be shared between configure
+diff -ur libssp/configure libssp/configure
+--- libssp/configure	2013-09-20 11:47:52.000000000 +0200
++++ libssp/configure	2015-12-16 21:29:28.354072092 +0200
+@@ -2893,6 +2893,9 @@
+ ac_config_commands="$ac_config_commands default-1"
+ 
+ 
++RANLIB="ranlib -D"
++
++
+ target_alias=${target_alias-$host_alias}
+ 
+ 
+diff -ur libstdc++-v3/configure libstdc++-v3/configure
+--- libstdc++-v3/configure	2014-03-20 20:57:07.000000000 +0200
++++ libstdc++-v3/configure	2015-12-16 21:29:05.858071558 +0200
+@@ -2888,6 +2888,9 @@
+ ac_config_commands="$ac_config_commands default-1"
+ 
+ 
++RANLIB="ranlib -D"
++
++
+ # Gets build, host, target, *_vendor, *_cpu, *_os, etc.
+ #
+ # You will slowly go insane if you do not grok the following fact:  when

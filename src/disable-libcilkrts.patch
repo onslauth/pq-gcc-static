@@ -1,0 +1,28 @@
+--- libcilkrts/configure.tgt	2013-10-29 20:37:47.000000000 +0200
++++ libcilkrts/configure.tgt	2015-12-21 13:45:00.953360676 +0200
+@@ -33,10 +33,6 @@
+ 
+ # Disable Cilk Runtime library for non x86 architecture...for now.
+ case "${target}" in
+-  x86_64-*-*)
+-    ;;
+-  i?86-*-*)
+-    ;;
+   *-*-*)
+     UNSUPPORTED=1
+     ;;
+@@ -46,14 +42,6 @@
+ if test x$enable_libcilkrts = x ; then
+     # Enable libcilkrts by default on hosted POSIX systems.
+     case "${target}" in
+-    *-*-linux* | *-*-gnu* | *-*-k*bsd*-gnu | *-*-kopensolaris*-gnu)
+-        ;;
+-    *-*-netbsd* | *-*-freebsd* | *-*-openbsd* | *-*-dragonfly*)
+-        ;;
+-    *-*-solaris2* | *-*-hpux11*)
+-        ;;
+-    *-*-darwin* | *-*-aix*)
+-        ;;
+     *)
+         UNSUPPORTED=1
+         ;;
